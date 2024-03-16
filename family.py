@@ -43,45 +43,193 @@ def parent_child(semilla):
     
     semilla['Phone-2 Area Code']
     semilla['Phone-2 Base Number']
-    semilla['Gender']
+    gender = semilla['Gender']
     
-    generate_alias(firstName, lastName)
+    #print(generateG())
+    print(semilla)
+    print(generatePopularName(a1_state, gender))
+    #generate_alias(firstName, lastName)
     
     return semilla
 
-def generateName(state, gender):
+def generateRandomName(gender):
+    #import csv
+    import pickle
+    import random
     
-    males, females = openPopularNames(state)
+    #f_names = list()
+    #m_names = list()
     
-    name = ''
-    
-    if(gender):
-        pass
-    else: 
-        pass
-    
-    return name
+    #with open(f'./files/names.csv', newline='') as csvfile:
+    #    reader = csv.reader(csvfile)
+    #
+    #    for row in reader:
+    #        if(row[1]=='F'):
+    #            name = row[3]
+    #            if name not in f_names:
+    #                f_names.append(name)
+    #        else: 
+    #            name = row[3]
+    #            if name not in m_names:
+    #                m_names.append(name)
+                    
+    #all_names=AllNames()
+    #all_names.females = f_names
+    #all_names.males = m_names
 
-def openPopularNames(state):
-    females = []
-    males = []
+    #with open("all_names.pkl", "wb") as archivo:
+    #    pickle.dump(all_names, archivo)
+        
+    with open("all_names.pkl", "rb") as archivo:
+        all_names = pickle.load(archivo)    
+        
+    #print('females: ', len( all_names.females))
+    #print('males: ', len(all_names.males))
+    
+    #print('random female name: ',f_name)
+    #print('random male name: ',m_name)
+    if(gender=='F'):
+        index = random.randint(0, 20278)
+        f_name = all_names.females[index]
+        return f_name
+    if(gender=='M'):
+        index = random.randint(0, 13334)
+        m_name = all_names.males[index]
+        return m_name
+    return None
+
+class AllNames():
+    females = list()
+    males = list()
+    
+class StateAllNames():
+    females =  list()
+    females_p = list()
+    males = list()
+    males_p = list()
+            
+def generatePopularName(statee, gender):
+    females = list()
+    females_p = list()
+    males = list()
+    males_p = list()
     
     import csv
-
-    with open(f'/files/PopularNamesByState/{state}.csv', newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        for row in reader:
-            nombre_male = row[1]
-            frecuencia_male = int(row[2])
-            nombre_female = row[3]
-            frecuencia_female = int(row[4])
-            
-            males.append((nombre_male, frecuencia_male))
-            
-            females.append((nombre_female, frecuencia_female))
     
-    return males, females
+    states = [
+        "Alabama",
+        "Alaska",
+        "Arizona",
+        "Arkansas",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "Florida",
+        "Georgia",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana",
+        "Maine",
+        "Maryland",
+        "Massachusetts",
+        "Michigan",
+        "Minnesota",
+        "Mississippi",
+        "Missouri",
+        "Montana",
+        "Nebraska",
+        "Nevada",
+        "New Hampshire",
+        "New Jersey",
+        "New Mexico",
+        "New York",
+        "North Carolina",
+        "North Dakota",
+        "Ohio",
+        "Oklahoma",
+        "Oregon",
+        "Pennsylvania",
+        "Rhode Island",
+        "South Carolina",
+        "South Dakota",
+        "Tennessee",
+        "Texas",
+        "Utah",
+        "Vermont",
+        "Virginia",
+        "Washington",
+        "West Virginia",
+        "Wisconsin",
+        "Wyoming",
+        "District of Columbia"
+    ]
+    # for state in states:
+    #     print(state)
+    #     with open(f'./files/PopularNamesByState/2003/{state}.csv', newline='') as csvfile:
+    #         reader = csv.reader(csvfile)
+            
+    #         male_total_count = 0
+    #         female_total_count = 0
+            
+    #         for row in reader:
+                
+    #             male_total_count += int(row[2])
+    #             female_total_count += int(row[4])
+                
+    #             nombre_male = row[1]
+    #             probability_male = int(row[2])
+    #             nombre_female = row[3]
+    #             probability_female = int(row[4])                
+    #             males.append(nombre_male)
+    #             males_p.append(probability_male)
+    #             females.append(nombre_female)
+    #             females_p.append(probability_female)
+            
+    #         male_probability_weight = (100 / male_total_count) / 100
+    #         female_probability_weight = (100 / female_total_count) / 100
+            
+    #         for p in males_p:
+    #             p = p * male_probability_weight
+            
+    #         for p in females_p:
+    #             p = p * female_probability_weight
+        
+    #     state_all_names = StateAllNames()
+    #     state_all_names.females = females
+    #     state_all_names.females_p = females_p
+    #     state_all_names.males = males
+    #     state_all_names.males_p = males_p
+        
+    #     with open(f'./files/PopularNamesByState/2003/{state}_all_names.pkl', "wb") as archivo:
+    #         pickle.dump(state_all_names, archivo)
+    #     females.clear()
+    #     females_p.clear()
+    #     males.clear()
+    #     males_p.clear()
+        
+    statee=abreviationToState(statee)
+    import pickle
+    with open(f'./files/PopularNamesByState/2003/{statee}_all_names.pkl', "rb") as archivo:
+        state_all_names = pickle.load(archivo) 
+    
+    import random
+    
+    #print(archivo)
+    #print(state_all_names.males)
+    
+    if (gender=='F'):
+        name = random.choices(state_all_names.females, weights=state_all_names.females_p, k=1)
+        return name
+    if (gender=='M'):
+        name = random.choices(state_all_names.males, weights=state_all_names.males_p, k=1)
+        return name
+    return None
 
 def generateGender():
     import random
@@ -90,3 +238,61 @@ def generateGender():
         return 'M'
     else:
         return 'F'
+
+def abreviationToState(abreviation):
+    
+    state_abreviations = {
+        "AL": "Alabama",
+        "AK": "Alaska",
+        "AZ": "Arizona",
+        "AR": "Arkansas",
+        "CA": "California",
+        "CO": "Colorado",
+        "CT": "Connecticut",
+        "DE": "Delaware",
+        "FL": "Florida",
+        "GA": "Georgia",
+        "HI": "Hawaii",
+        "ID": "Idaho",
+        "IL": "Illinois",
+        "IN": "Indiana",
+        "IA": "Iowa",
+        "KS": "Kansas",
+        "KY": "Kentucky",
+        "LA": "Louisiana",
+        "ME": "Maine",
+        "MD": "Maryland",
+        "MA": "Massachusetts",
+        "MI": "Michigan",
+        "MN": "Minnesota",
+        "MS": "Mississippi",
+        "MO": "Missouri",
+        "MT": "Montana",
+        "NE": "Nebraska",
+        "NV": "Nevada",
+        "NH": "New Hampshire",
+        "NJ": "New Jersey",
+        "NM": "New Mexico",
+        "NY": "New York",
+        "NC": "North Carolina",
+        "ND": "North Dakota",
+        "OH": "Ohio",
+        "OK": "Oklahoma",
+        "OR": "Oregon",
+        "PA": "Pennsylvania",
+        "RI": "Rhode Island",
+        "SC": "South Carolina",
+        "SD": "South Dakota",
+        "TN": "Tennessee",
+        "TX": "Texas",
+        "UT": "Utah",
+        "VT": "Vermont",
+        "VA": "Virginia",
+        "WA": "Washington",
+        "WV": "West Virginia",
+        "WI": "Wisconsin",
+        "WY": "Wyoming"
+    }
+    
+    state = state_abreviations[abreviation]
+    return state
