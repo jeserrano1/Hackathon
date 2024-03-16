@@ -47,10 +47,11 @@ def parent_child(semilla):
     
     #print(generateG())
     print(semilla)
-    print(generatePopularName(a1_state, gender))
+    print(getSimilarityPercentage(generateDOB(), dob))
+    #print(generatePopularName(a1_state, gender))
     #print(generateDOB())
-    print(generateChildDOB(dob))
-    print(generateSiblingsdDOB(dob))
+    #print(generateChildDOB(dob))
+    #print(generateSiblingsdDOB(dob))
     #generate_alias(firstName, lastName)
     
     return semilla
@@ -364,4 +365,16 @@ def validataDOBSiblings(seedDOB, DOB):
         else:
             return False
         
+def getSimilarityPercentage(string1, string2):
+    import Levenshtein
+
+    # Calcular la distancia de Levenshtein
+    distancia = Levenshtein.distance(string1, string2)
+
+    # Calcular la longitud de la cadena más larga
+    longitud_maxima = max(len(string1), len(string2))
+    print('distancia:', distancia)
+    # Calcular el porcentaje de similitud
+    porcentaje_similitud = ((longitud_maxima - distancia) / longitud_maxima) * 100
+    return porcentaje_similitud
     
