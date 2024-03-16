@@ -73,11 +73,15 @@ semilla_df = pd.DataFrame(semilla_dictionario, index=[0])
 
 # EMPEZAR A ITERAR
 from similar import same, typo
-
+from family import parent_child
 # SAME
 lista_same = []
 for _ in range(int(total_records_similar_same)):
     record = same(semilla_dictionario)
+    lista_same.append(record)
+    
+for _ in range(1):             #range(int(total_records_family_parent_child)):
+    record = parent_child(semilla_dictionario)
     lista_same.append(record)
 
 # TYPO
