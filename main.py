@@ -86,6 +86,7 @@ for _ in range(1):             #range(int(total_records_family_parent_child)):
 
 # TYPO
 # lista_typo = []
+
 # for _ in range(int(total_records_similar_typo)):
 #     record = typo(semilla_dictionario)
 #     lista_same.append(record)

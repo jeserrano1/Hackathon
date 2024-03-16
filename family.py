@@ -48,6 +48,7 @@ def parent_child(semilla):
     #print(generateG())
     print(semilla)
     print(generatePopularName(a1_state, gender))
+    generateDOB()
     #generate_alias(firstName, lastName)
     
     return semilla
@@ -296,3 +297,67 @@ def abreviationToState(abreviation):
     
     state = state_abreviations[abreviation]
     return state
+
+def generateDOB():
+    import faker
+    faker = Faker()
+    fecha_nacimiento = faker.date_of_birth(minimum_age=18, maximum_age=100)
+    fecha_nacimiento_formateada = fecha_nacimiento.strftime('%Y-%m-%d')
+    print(fecha_nacimiento_formateada)
+    return fecha_nacimiento_formateada
+
+def generateChildDOB(DOB):
+    if (get_edad(DOB) >= 39):
+        import faker
+        faker = Faker()
+        fecha_nacimiento = faker.date_of_birth(minimum_age=18, maximum_age=get_edad(DOB)-20)
+        fecha_nacimiento_formateada = fecha_nacimiento.strftime('%Y-%m-%d')
+        print(fecha_nacimiento_formateada)
+    return fecha_nacimiento_formateada
+
+def generateSiblingsdDOB(DOB):
+    import random
+    import faker
+    if (get_edad(DOB) >= 19): # Generacion de hermano menor
+        probabilidad = random.random()
+        if probabilidad < 0.5:
+            faker = Faker()
+            fecha_nacimiento = faker.date_of_birth(minimum_age=18, maximum_age=get_edad(DOB)-1)
+            fecha_nacimiento_formateada = fecha_nacimiento.strftime('%Y-%m-%d')
+            print(fecha_nacimiento_formateada)
+            return fecha_nacimiento_formateada
+        else:
+            return generateDOB()
+    else: 
+        return generateDOB()  
+
+def get_edad(DOB):
+    import datetime
+    fecha_actual = datetime.datetime.now()
+    try:
+        fecha_nacimiento_conversion = datetime.datetime.strptime(DOB, "%Y-%m-%d")
+    except ValueError:
+        print("La cadena no coincide con el formato esperado (YYYY-MM-DD).")
+    edad = fecha_actual.year - fecha_nacimiento_conversion.year - ((fecha_actual.month, fecha_actual.day) < (
+        fecha_nacimiento_conversion.month, fecha_nacimiento_conversion.day))
+
+    # raise ValueError("time data %r does not match format %r" %
+    #                  ValueError: time
+    # data
+    # 'Date of Birth'
+    # does
+    # not match
+    # format
+    # '%Y-%m-%d'
+
+    return edad
+    
+def validataDOBSiblings(seedDOB, DOB):
+    difference = get_edad(seedDOB) - get_edad(DOB)
+    if( difference >= 0 ):  #Es hermano mayor de la semilla
+        if(get_edad(DOB) > 18): # Verificar si es mayor que
+            return True
+        else:
+            return False
+        
+    
