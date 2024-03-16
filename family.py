@@ -10,7 +10,7 @@ def parent_child(semilla):
     semilla['Alias-1']
     semilla['Alias-2']
     semilla['Alias-3']
-    semilla['Date of Birth']
+    dob = semilla['Date of Birth']
     semilla['SSN']
     semilla['Address-1 Line 1']
     semilla['Address-1 Line 2']
@@ -48,7 +48,9 @@ def parent_child(semilla):
     #print(generateG())
     print(semilla)
     print(generatePopularName(a1_state, gender))
-    generateDOB()
+    #print(generateDOB())
+    print(generateChildDOB(dob))
+    print(generateSiblingsdDOB(dob))
     #generate_alias(firstName, lastName)
     
     return semilla
@@ -301,19 +303,20 @@ def abreviationToState(abreviation):
 def generateDOB():
     import faker
     faker = Faker()
-    fecha_nacimiento = faker.date_of_birth(minimum_age=18, maximum_age=100)
+    fecha_nacimiento = faker.date_of_birth(minimum_age=18, maximum_age=80)
     fecha_nacimiento_formateada = fecha_nacimiento.strftime('%Y-%m-%d')
-    print(fecha_nacimiento_formateada)
     return fecha_nacimiento_formateada
 
 def generateChildDOB(DOB):
     if (get_edad(DOB) >= 39):
+        print('Es mayor que 39')
         import faker
         faker = Faker()
         fecha_nacimiento = faker.date_of_birth(minimum_age=18, maximum_age=get_edad(DOB)-20)
         fecha_nacimiento_formateada = fecha_nacimiento.strftime('%Y-%m-%d')
-        print(fecha_nacimiento_formateada)
-    return fecha_nacimiento_formateada
+        return fecha_nacimiento_formateada
+    else:
+        return None
 
 def generateSiblingsdDOB(DOB):
     import random
@@ -324,12 +327,21 @@ def generateSiblingsdDOB(DOB):
             faker = Faker()
             fecha_nacimiento = faker.date_of_birth(minimum_age=18, maximum_age=get_edad(DOB)-1)
             fecha_nacimiento_formateada = fecha_nacimiento.strftime('%Y-%m-%d')
-            print(fecha_nacimiento_formateada)
+            #print(fecha_nacimiento_formateada)
+                
             return fecha_nacimiento_formateada
         else:
-            return generateDOB()
+            while(True):
+                DOB2 = generateDOB()
+                dif = get_edad(DOB) - get_edad(DOB2)
+                if(abs(dif)<=17):
+                    return DOB2
     else: 
-        return generateDOB()  
+        while(True):
+            DOB2 = generateDOB()
+            dif = get_edad(DOB) - get_edad(DOB2)
+            if(abs(dif)<=17):
+                return DOB2 
 
 def get_edad(DOB):
     import datetime
@@ -341,15 +353,7 @@ def get_edad(DOB):
     edad = fecha_actual.year - fecha_nacimiento_conversion.year - ((fecha_actual.month, fecha_actual.day) < (
         fecha_nacimiento_conversion.month, fecha_nacimiento_conversion.day))
 
-    # raise ValueError("time data %r does not match format %r" %
-    #                  ValueError: time
-    # data
-    # 'Date of Birth'
-    # does
-    # not match
-    # format
-    # '%Y-%m-%d'
-
+    print('edad:', edad)
     return edad
     
 def validataDOBSiblings(seedDOB, DOB):

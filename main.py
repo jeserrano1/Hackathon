@@ -62,7 +62,7 @@ datos_excel = pd.read_excel('files/Hackathon-Information.xlsx')
 
 # Imprimir la primera fila
 indice = datos_excel.iloc[1]
-num_random = random.randint(1, 26)
+num_random = random.randint(2, 26)
 fila_random = datos_excel.iloc[num_random]
 
 # Luego, convertimos esta lista de tuplas en un diccionario
